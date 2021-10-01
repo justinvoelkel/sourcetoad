@@ -171,7 +171,7 @@ class Cart
     public function getSubTotal()
     {
         $subtotal = array_reduce($this->items, function($carry, $item){
-            $carry += $item->price;
+            $carry += ($item->price * $item->quantity);
             return $carry;
         }, 0);
         return $subtotal;
