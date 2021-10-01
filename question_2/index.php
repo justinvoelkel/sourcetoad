@@ -29,7 +29,7 @@ function get_nested_value($arr, $key)
             return $v;
         }
     }
-    // if they key was not found either because it is not part
+    // if the key was not found either because it is not part
     // of the data structure or becuase the key's value was an array
     throw new Exception('Invalid nested key requested');
 }
