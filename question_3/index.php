@@ -198,7 +198,7 @@ class Cart
 
     public function getSingleItemCost(Item $item)
     {
-        $tax = $item->price * ($this->shipping->tax_rate / 100);
+        $tax = ($item->price * $item->quantity) * ($this->shipping->tax_rate / 100);
         return round($item->price + $tax + $this->shipping->shipping_rate, 2);
     }
 
