@@ -198,8 +198,9 @@ class Cart
 
     public function getSingleItemCost(Item $item)
     {
-        $tax = ($item->price * $item->quantity) * ($this->shipping->tax_rate / 100);
-        return round($item->price + $tax + $this->shipping->shipping_rate, 2);
+        $item_total = $item->price * $item->quantity;
+        $tax = $item_total * ($this->shipping->tax_rate / 100);
+        return round($item_total + $tax + $this->shipping->shipping_rate, 2);
     }
 
     // could write individual getters or override __get magic method
@@ -243,7 +244,7 @@ $cart = new Cart($customer);
 $cart->setItems(...[$item_1, $item_2]);
 
 // get items in cart
-var_dump($cart->items);
+var_dump('cart items', $cart->items);
 
 // instantiate shipping - assuming the customer selected one address
 $shipping = new Shipping($customer->addresses[0]);
@@ -251,17 +252,21 @@ $shipping = new Shipping($customer->addresses[0]);
 $cart->setShipping($shipping);
 
 // access customer name and address(es)
-var_dump($customer->first_name, $customer->last_name, $customer->addresses);
+var_dump('customer name and addresses',
+         $customer->first_name,
+         $customer->last_name,
+         $customer->addresses);
 
 // get shipping address
-var_dump($cart->shipping->shipping_address);
+var_dump('order shipping address', $cart->shipping->shipping_address);
 
 // get single item cost plus tax and shipping
-var_dump($cart->getSingleItemCost($cart->items[0]));
+var_dump('single item cost plust tax and shipping',
+         $cart->getSingleItemCost($cart->items[0]));
 
 // get items subtotal
-var_dump($cart->getSubTotal());
+var_dump('items subtotal', $cart->getSubTotal());
 
 // get items total with tax and shipping
-var_dump($cart->getTotal());
+var_dump('cart total with tax and shipping', $cart->getTotal());
 ?>
