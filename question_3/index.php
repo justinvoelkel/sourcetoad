@@ -163,14 +163,9 @@ class Cart
         $this->customer = $customer;
     }
 
-    public function setShippingAddress(Address $address)
+    public function setShipping(Shipping $shipping)
     {
-        $this->shipping = new Shipping($address);
-    }
-
-    public function getShippingAddress()
-    {
-        return $this->shipping->shipping_address;
+        $this->shipping = $shipping;
     }
 
     public function getSubTotal()
@@ -211,7 +206,7 @@ class Cart
     // w modified logic
     public function __get($property)
     {
-        $gettable = ['items'];
+        $gettable = ['items', 'shipping'];
         if(in_array($property, $gettable) && property_exists($this, $property))
         {
             return $this->$property;
@@ -250,14 +245,16 @@ $cart->setItems(...[$item_1, $item_2]);
 // get items in cart
 var_dump($cart->items);
 
-// set shipping address - assuming the customer selects this
-$cart->setShippingAddress($customer->addresses[0]);
+// instantiate shipping - assuming the customer selected one address
+$shipping = new Shipping($customer->addresses[0]);
+// set the shipping on the cart
+$cart->setShipping($shipping);
 
 // access customer name and address(es)
 var_dump($customer->first_name, $customer->last_name, $customer->addresses);
 
 // get shipping address
-var_dump($cart->getShippingAddress());
+var_dump($cart->shipping->shipping_address);
 
 // get single item cost plus tax and shipping
 var_dump($cart->getSingleItemCost($cart->items[0]));
